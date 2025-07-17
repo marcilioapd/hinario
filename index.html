@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hinários PWA</title>
+    <!-- Link para o Tailwind CSS CDN para um estilo moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <!-- Define a fonte Inter para todo o aplicativo -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div id="app" class="container mx-auto p-4 max-w-2xl min-h-screen flex flex-col rounded-lg shadow-lg">
+        <!-- Tela Inicial -->
+        <div id="home-screen" class="flex flex-col items-center justify-center flex-grow space-y-6">
+            <h1 class="text-4xl font-bold mb-8 text-center">Escolha um Hinário</h1>
+            <button id="btn-cantor-cristao" class="w-full md:w-2/3 lg:w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                Cantor Cristão
+            </button>
+            <button id="btn-harpa-crista" class="w-full md:w-2/3 lg:w-1/2 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300">
+                Harpa Cristã
+            </button>
+        </div>
+
+        <!-- Tela de Listagem de Hinos -->
+        <div id="hymn-list-screen" class="hidden flex-col flex-grow">
+            <div class="flex items-center justify-between mb-4">
+                <button id="back-to-home" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Voltar
+                </button>
+                <h2 id="hymn-list-title" class="text-3xl font-bold text-center flex-grow"></h2>
+                <button id="theme-toggle" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Modo Escuro
+                </button>
+            </div>
+            <input type="text" id="search-input" placeholder="Pesquisar hino por número ou título..." class="w-full p-3 mb-4 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100">
+            <ul id="hymn-list" class="flex-grow overflow-y-auto space-y-2 pb-4">
+                <!-- Hinos serão carregados aqui pelo JavaScript -->
+            </ul>
+        </div>
+
+        <!-- Tela de Conteúdo do Hino -->
+        <div id="hymn-content-screen" class="hidden flex-col flex-grow">
+            <div class="flex items-center justify-between mb-4">
+                <button id="back-to-list" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Voltar
+                </button>
+                <h2 id="hymn-content-title" class="text-3xl font-bold text-center flex-grow"></h2>
+                <button id="theme-toggle-content" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition duration-300">
+                    Modo Escuro
+                </button>
+            </div>
+            <div class="flex justify-center space-x-2 mb-4">
+                <button id="font-size-decrease" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">-A</button>
+                <button id="font-size-increase" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">+A</button>
+            </div>
+            <div id="hymn-text-container" class="flex-grow overflow-y-auto p-4 border border-gray-300 dark:border-gray-700 rounded-lg text-lg leading-relaxed text-center">
+                <p id="hymn-text" class="whitespace-pre-wrap"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Registra o Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado com sucesso:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Falha no registro do Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
